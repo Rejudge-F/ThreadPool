@@ -22,13 +22,15 @@ public:
     ThreadPool(unsigned int minThreadNum, unsigned int maxThreadNum);
     ~ThreadPool();
     unsigned int TaskSize();
+    unsigned int GetBusy(){return busyThreadNum_;}
     std::shared_ptr<ThreadTask> GetThreadTask();
     void Run();
     void Shut() {shutDown_ = true;}
     void IncBusy();
     void DscBusy();
-    void TaskAdd(std::shared_ptr<ThreadTask> threadTask);
     void Destroy();
+    void AdjustThread();
+    void TaskAdd(std::shared_ptr<ThreadTask> threadTask);
     unsigned int GetLivThreadNum() {return livThreadNum_;}
 private:
     bool shutDown_;
@@ -36,7 +38,7 @@ private:
     unsigned int minThreadNum_;
     unsigned int maxThreadNum_;
     unsigned int taskSize_;
-    unsigned int busyThreadNum;
+    unsigned int busyThreadNum_;
     pthread_cond_t cond_;
     pthread_mutex_t mutex_;
     pthread_mutex_t counterMutex_;
