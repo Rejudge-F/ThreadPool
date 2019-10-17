@@ -32,11 +32,14 @@ public:
     ~Thread();
     void Start();
     void Shut();
+    bool IsJoin() {return joined_;}
+    bool IsAlive();
     pthread_t GetPid() {
         return pid_;
     }
 private:
     bool running_;
+    bool joined_;
     bool shutDown_;
     pthread_t pid_;
     pthread_mutex_t *mutex_;
